@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:word_time/services/wordTime.dart';
+import 'package:word_time/services/world_time.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LoadingPage extends StatefulWidget {
   const LoadingPage({Key? key}) : super(key: key);
@@ -10,13 +11,17 @@ class LoadingPage extends StatefulWidget {
 
 class _LoadingPageState extends State<LoadingPage> {
   void setupWordTime() async {
-    var instance = WordTime(
+    var instance = WorldTime(
         location: "Berlin",
         urlFlag: "germany.png",
-        urlLocation: "Europe/London");
+        urlLocation: "Europe/Berlin");
 
     await instance.getCurrentTime();
-    print(instance.time);
+    Navigator.pushReplacementNamed(
+      context,
+      "/home",
+      arguments: instance,
+    );
   }
 
   @override
@@ -27,8 +32,14 @@ class _LoadingPageState extends State<LoadingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Text("Loading"),
+    return Scaffold(
+      backgroundColor: Colors.blue[900],
+      body: const Center(
+        child: SpinKitRotatingCircle(
+          color: Colors.white,
+          size: 50,
+        ),
+      ),
     );
   }
 }
